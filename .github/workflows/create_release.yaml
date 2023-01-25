@@ -29,4 +29,5 @@ jobs:
         run: |
           ghr -t $GITHUB_TOKEN -r automatic_releases -generatenotes $RELEASE_TAG
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
