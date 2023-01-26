@@ -28,13 +28,13 @@ jobs:
       - name: info
         run: |
           gh api \
-            --method POST \
-            -H "Accept: application/vnd.github+json" \
-            /repos/OWNER/REPO/releases \
-            -f tag_name=$RELEASE_TAG \
-            -f draft=false \
-            -f prerelease=false \
-            -f generate_release_notes=true 
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/OWNER/REPO/releases \
+          -f tag_name=$RELEASE_TAG \
+          -f draft=false \
+          -f prerelease=false \
+          -f generate_release_notes=true 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
