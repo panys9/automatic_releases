@@ -16,16 +16,10 @@ jobs:
     steps:
       - name: Checkout Repo ✅
         uses: actions/checkout@v3
-      - name: Setup Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.19
-      - name: Install Tools
-        run: make install-tools
       - name: Set Release Tag 🔖
         id: github_tag
         run: ./.github/workflows/scripts/set_release_tag.sh
-      - name: info
+      - name: Create Github Release 📁
         run: |
           gh api \
           --method POST \
@@ -34,15 +28,9 @@ jobs:
           -f tag_name=$RELEASE_TAG \
           -F draft=false \
           -F prerelease=false \
-          -F generate_release_notes=true 
+          -F generate_release_notes=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
           RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
-      # - name: Create Github Release 📁
-      #   run: |
-      #     ghr -t $GITHUB_TOKEN -debug $RELEASE_TAG
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
