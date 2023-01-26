@@ -30,7 +30,7 @@ jobs:
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
-          /repos/OWNER/REPO/releases \
+          /repos/$OWNER/$REPO/releases \
           -f tag_name=$RELEASE_TAG \
           -f draft=false \
           -f prerelease=false \
