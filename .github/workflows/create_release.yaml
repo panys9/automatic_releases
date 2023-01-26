@@ -25,9 +25,24 @@ jobs:
       - name: Set Release Tag 🔖
         id: github_tag
         run: ./.github/workflows/scripts/set_release_tag.sh
-      - name: Create Github Release 📁
+      - name: info
         run: |
-          ghr -t $GITHUB_TOKEN -debug $RELEASE_TAG
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/OWNER/REPO/releases \
+            -f tag_name=$RELEASE_TAG \
+            -f draft=false \
+            -f prerelease=false \
+            -f generate_release_notes=true 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
           RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
+      # - name: Create Github Release 📁
+      #   run: |
+      #     ghr -t $GITHUB_TOKEN -debug $RELEASE_TAG
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
