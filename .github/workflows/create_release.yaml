@@ -27,7 +27,7 @@ jobs:
         run: ./.github/workflows/scripts/set_release_tag.sh
       - name: Create Github Release 📁
         run: |
-          ghr -t $GITHUB_TOKEN -u panys9 -r automatic_releases -generatenotes -debug $RELEASE_TAG .
+          ghr -t $GITHUB_TOKEN -generatenotes -debug $RELEASE_TAG
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
