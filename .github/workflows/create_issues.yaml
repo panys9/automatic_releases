@@ -16,6 +16,7 @@ jobs:
         id: create-issue
         run: |
           echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/$OWNER/$REPO ) >> $GITHUB_OUTPUT
+          echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/$OWNER/$REPO )
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
@@ -30,5 +31,5 @@ jobs:
         uses: actions/checkout@v3
       - name: Create Github issue 🔖
         run: |
-          echo "${{needs.create-labels.output.issues}}"
+          echo "${{needs.create-labels.outputs.issues}}"
   
