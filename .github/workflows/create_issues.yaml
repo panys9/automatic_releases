@@ -1,0 +1,32 @@
+name: Create issue
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  create-labels:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    outputs:
+      issues: ${{ steps.create-issue.outputs.issue }}
+    steps:
+      - name: Checkout Repo ✅
+        uses: actions/checkout@v3
+      - name: Create Github issue 🔖
+        id: create-issue
+        run: |
+          echo "issue=$(gh issue create --title "Align with template repo" --body "Update with changes from latest release in template repo" --label "chore" --repo /repos/$OWNER/$REPO) >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+  print-output:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repo ✅
+        uses: actions/checkout@v3
+      - name: Create Github issue 🔖
+        run: |
+          echo "${{needs.create-labels.output.issue}}"
+  
