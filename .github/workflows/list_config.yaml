@@ -1,0 +1,17 @@
+name: List configs
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  create-labels:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repo ✅
+        uses: actions/checkout@v3
+      - name: Create Github Label 🔖
+        run: |
+          gh config list
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
