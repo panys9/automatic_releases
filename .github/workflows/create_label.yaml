@@ -7,15 +7,15 @@ jobs:
   create-labels:
     strategy:
         matrix:
-          labels: [breaking change, sub-issue, deprecated]
+          labels: [breaking-change, sub-issue, deprecation]
           include:
-            - label: breaking change
+            - label: breaking-change
               color: 0A4139
               desc: "Changes that are not backwards compatitable"
             - label: sub-issue
               color: 57DE6C
               desc: "Broken down issue"
-            - label: deprecated
+            - label: deprecation
               color: 45B683
               desc: "A component that is deprecated"
     runs-on: ubuntu-latest
