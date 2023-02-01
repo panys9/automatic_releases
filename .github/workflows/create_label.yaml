@@ -10,7 +10,7 @@ jobs:
           include:
             - label: breaking-change
               color: 0A4139
-              desc: "Changes that are not backwards compatitable"
+              desc: "Changes that are not backwards compatible"
             - label: sub-issue
               color: 57DE6C
               desc: "Broken down issue"
@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: Checkout Repo ✅
         uses: actions/checkout@v3
-      - name: Create Github Label 📁
+      - name: Create Github Label 🔖
         run: |
           gh label create -f ${{ matrix.label }} -d "${{ matrix.desc }}" -c ${{ matrix.color }}
         env:
