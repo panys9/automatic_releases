@@ -7,10 +7,17 @@ jobs:
   create-labels:
     strategy:
         matrix:
-          labels: [test]
+          labels: [breaking change, sub-issue, deprecated]
           include:
-            - label: test
+            - label: breaking change
+              color: 0A4139
+              desc: "Changes that are not backwards compatitable"
+            - label: sub-issue
+              color: 57DE6C
+              desc: "Broken down issue"
+            - label: deprecated
               color: 45B683
+              desc: "A component that is deprecated"
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -18,7 +25,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Create Github Release 📁
         run: |
-          gh label create ${{ matrix.label }} -c ${{ matrix.color }} 
+          gh label create -f ${{ matrix.label }} -d ${{ matrix.desc }} -c ${{ matrix.color }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
