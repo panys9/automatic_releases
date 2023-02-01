@@ -7,7 +7,6 @@ jobs:
   create-labels:
     strategy:
         matrix:
-          labels: [breaking-change, sub-issue, deprecation]
           include:
             - label: breaking-change
               color: 0A4139
@@ -23,7 +22,7 @@ jobs:
     steps:
       - name: Checkout Repo ✅
         uses: actions/checkout@v3
-      - name: Create Github Release 📁
+      - name: Create Github Label 📁
         run: |
           gh label create -f ${{ matrix.label }} -d "${{ matrix.desc }}" -c ${{ matrix.color }}
         env:
