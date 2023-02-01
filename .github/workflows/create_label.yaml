@@ -10,7 +10,7 @@ jobs:
           labels: [test]
           include:
             - label: test
-              color: "#45B683"
+              color: 45B683
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
