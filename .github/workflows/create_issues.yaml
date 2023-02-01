@@ -16,11 +16,16 @@ jobs:
         id: create-issue
         run: |
           echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/$OWNER/$REPO ) >> $GITHUB_OUTPUT
-          echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/$OWNER/$REPO )
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
+      - run: sed -i -e "s/### Tasks\n/### Tasks\n- [ ] ${{ steps.create-issue.outputs.issue }}\n/g" ./.github/templates/issue.md
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: ./.github/templates/issue.md
   print-output:
     runs-on: ubuntu-latest
     permissions: write-all
