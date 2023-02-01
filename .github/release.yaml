@@ -8,7 +8,6 @@ changelog:
         - breaking-change
     - title: New Features 💡
       labels:
-        - Semver-Minor
         - enhancement
     - title: Bug Fixes 🧰
       labels:
@@ -16,6 +15,6 @@ changelog:
     - title: Deprecations 🚩
       labels:
         - deprecation
-    - title: Other Changes
+    - title: Other Changes ⚡
       labels:
         - "*"

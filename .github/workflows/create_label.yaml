@@ -1,0 +1,26 @@
+name: Create Labels
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  create-labels:
+    strategy:
+        matrix:
+          labels: [test]
+          include:
+            - label: test
+              color: "#45B683"
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repo ✅
+        uses: actions/checkout@v3
+      - name: Create Github Release 📁
+        run: |
+          gh label create ${{ matrix.label }} -c ${{ matrix.color }} 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          RELEASE_TAG: ${{ steps.github_tag.outputs.tag }}
