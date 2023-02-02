@@ -23,7 +23,7 @@ jobs:
       - run: |
           url=${{ steps.create-issue.outputs.issue }}
           url=${url//\//\\\/}
-          sed -i 's/Tasks/Tasks\n\- \[ \] ${{ url }}/g' .github/workflows/templates/issue.md
+          sed -i 's/Tasks/Tasks\n\- \[ \] $(echo $url )/g' .github/workflows/templates/issue.md
           sed -i 's|Tasks|Tasks\n\- \[ \] ${{ steps.create-issue.outputs.issue }}|g' .github/workflows/templates/issue.md
 
 
