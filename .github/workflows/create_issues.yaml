@@ -20,7 +20,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-      - run: sed -i -E 's/Tasks/Tasks\\n\-  ${{ steps.create-issue.outputs.issue }} /g' .github/workflows/templates/issue.md
+      - run: |
+          sed -i -E '/Tasks/Tasks\\n\-  ${{ steps.create-issue.outputs.issue }} /g' .github/workflows/templates/issue.md
 
       - uses: actions/upload-artifact@v2
         with:
