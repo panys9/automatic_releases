@@ -28,7 +28,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: my-artifact
-          path: ./.github/templates/issue.md
+          path: .github/workflows/templates/issue.m
   print-output:
     runs-on: ubuntu-latest
     permissions: write-all
