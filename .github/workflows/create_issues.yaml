@@ -4,7 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
+  create-artifact:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Checkout Repo ✅
+        uses: actions/checkout@v3
+      - uses: actions/upload-artifact@v3
+        with:
+          name: issue-body
+          path: .github/workflows/templates/issue.md
   create-labels:
+    needs: [ create-artifact ]
+    strategy:
+        matrix:
+          repo: [panys9/config_baseline, panys9/automatic_releases]
     runs-on: ubuntu-latest
     permissions: write-all
     outputs:
@@ -12,27 +26,30 @@ jobs:
     steps:
       - name: Checkout Repo ✅
         uses: actions/checkout@v3
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: issue-body
       - name: Create Github issue 🔖
         id: create-issue
         run: |
-          echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/$OWNER/$REPO ) >> $GITHUB_OUTPUT
+          echo issue=$( gh issue create --title 'Align with template repo' --body 'Update with changes from latest release in template repo' --label 'enhancement' --repo https://github.com/${{ matrix.repo }} ) >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-      - run: |
+      - name: Add new content to file
+        run: |
           sed -i 's|Tasks|Tasks\n\- \[ \] ${{ steps.create-issue.outputs.issue }}|g' .github/workflows/templates/issue.md
-
-
-      - uses: actions/upload-artifact@v2
+      - name: Update artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: my-artifact
+          name: issue-body
           path: .github/workflows/templates/issue.md
   print-output:
     runs-on: ubuntu-latest
     permissions: write-all
-    needs:
-      - create-labels
+    needs: [ create-labels ]
     steps:
       - name: Checkout Repo ✅
         uses: actions/checkout@v3
